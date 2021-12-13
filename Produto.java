@@ -1,15 +1,49 @@
-package br.org.generation.lojadegames.model;
+package br.org.generation.farmacia.model;
+
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "tb_produto")
+@Table(name = "tb_produtos")
 public class Produto {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+
+	@NotBlank(message="Nome é obrigatório!")
+	private String nome;
+	
+	@NotBlank(message="Descrição é obrigatório!")
+	private String descricao;
+
+	private int quantidade;
+
+	private String laboratorio;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	@NotNull(message="Preço é obrigatório!")
+	@Positive(message = "Digite um valor maior do que zero")
+	private BigDecimal preco;
+	
+	private String foto;
+
+	@ManyToOne
+	@JsonIgnoreProperties("produto")
+	private Categoria categoria;
 
 	public Long getId() {
 		return id;
@@ -35,30 +69,46 @@ public class Produto {
 		this.descricao = descricao;
 	}
 
-	public String getConsole() {
-		return console;
+	public int getQuantidade() {
+		return quantidade;
 	}
 
-	public void setConsole(String console) {
-		this.console = console;
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
 	}
 
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	private Long id;
-	
-	@NotBlank(message = "O atributo nome é Obrigatório")
-	@Size(min = 3, max = 100, message = "O atributo nome deve ter no mínimo 3 e no máximo 100 caracteres")
-	private String nome;
-	
-	@NotBlank(message = "O atributo descricao é Obrigatório")
-	@Size(min = 3, max = 100, message = "O atributo descricao deve ter no mínimo 3 e no máximo 100 caracteres")
-	private String descricao;
-	
-	@NotBlank(message = "O atributo console é Obrigatório")
-	@Size(min = 3, max = 100, message = "O atributo console deve ter no mínimo 3 e no máximo 100 caracteres")
-	private String console;
+	public String getLaboratorio() {
+		return laboratorio;
+	}
 
+	public void setLaboratorio(String laboratorio) {
+		this.laboratorio = laboratorio;
+	}
+
+	public BigDecimal getPreco() {
+		return preco;
+	}
+
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+	
 	
 	
 }
